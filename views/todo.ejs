@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    <form action="/user/add" method="post">
+        <textarea name="activity" placeholder="Input your activity here:"></textarea>
+        <br>
+        <button>Add to your list</button>
+    </form>
+    <hr>
+    <form action="/view" method="get">
+        <button >View your list</button>
+    </form>
+    <hr>
+    <form action="/logout" method="post">
+        <button >Logout</button>
+    </form>
+</body>
+</html>

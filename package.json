@@ -1,0 +1,29 @@
+{
+  "name": "node-with-database-integration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "env": "^0.0.2",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.11.0",
+    "node": "^22.6.0",
+    "nodemon": "^3.1.4",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
+    "uuid": "^10.0.0"
+  }
+}
