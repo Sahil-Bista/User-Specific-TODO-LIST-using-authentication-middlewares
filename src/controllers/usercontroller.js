@@ -77,81 +77,77 @@ const getForm = (req, res) => {
 };
 
 const addUser = async (req, res) => {
-  const token = req.cookies.token;
-  const decoded = jwtDecode(token);
-  let id = decoded.id;
-  const todo = req.body.activity;
-
-  await todoModel
-    .create({
-      todo_task: `${todo}`,
-      user_id: id,
-    })
-    .catch((err) => {
-      if (err) {
-        console.log(err.message);
-      }
+  try{
+    const token = req.cookies.token;
+    const decoded = jwtDecode(token);
+    let id = decoded.id;
+    const todo = req.body.activity;
+    await todoModel.create({
+    todo_task: `${todo}`,
+    user_id: id
     });
-  await todoModel
-    .findAll({ where: { user_id: `${id}` } })
-    .then((result) => {
-      console.log({ result });
-      res.render("list.ejs", { result });
-    })
-    .catch((err) => {
-      res.send("some error with DB");
-    });
+  } catch (Err) {
+    console.log(Err.message);
+  }
+  try {
+    const token = req.cookies.token;
+    const decoded = jwtDecode(token);
+    let id = decoded.id;
+    const result = await todoModel.findAll({ where: { user_id: `${id}` } });
+    console.log({ result });
+    res.render("list.ejs", { result });
+  } catch (err) {
+    console.error("Database error:", err); 
+    res.status(500).send("There was an error with the database"); 
+  }
 };
 
-const getEditForm = (req, res) => {
+const getEditForm = async (req, res) => {
+  try{
   let { id } = req.params;
-  todoModel
-    .findAll({ where: { id: `${id}` } })
-    .then((result) => {
-      let task = result[0];
-      res.render("edit.ejs", { task });
-    })
-    .catch((err) => {
-      console.log(err.message);
-      res.send("some error with DB");
-    });
+  const result = await todoModel.findAll({ where: { id: `${id}` } })
+  let task = result[0];
+  res.render("edit.ejs", { task });
+  }catch(err){
+    console.error("Database error:", err); 
+    res.status(500).send("There was an error with the database"); 
+  }
 };
 
-const updateTask = (req, res) => {
+const updateTask = async (req, res) => {
+  try{
   let { id } = req.params;
   let { edited_task } = req.body;
-  todoModel
-    .update({ todo_task: `${edited_task}` }, { where: { id: id } })
-    .then((result) => {
-      res.redirect("/user/add");
-    })
-    .catch(() => {
-      console.log(err.message);
-      res.send("error in db");
-    });
+  await todoModel.update({ todo_task: `${edited_task}` }, { where: { id: id } })
+  res.redirect("/user/add");  
+  }catch(err){
+    console.error("Database error:", err); 
+    res.status(500).send("There was an error with the database"); 
+  }  
 };
 
-const getDeleteForm = (req, res) => {
+const getDeleteForm = async (req, res) => {
+  try{
   let { id } = req.params;
-  todoModel
+  const result= await todoModel
     .findAll({ where: { id: id } })
-    .then((result) => {
-      console.log(result);
-      let task = result[0];
-      res.render("delete.ejs", { task });
-    })
-    .catch((err) => {
+    let task = result[0];
+    res.render("delete.ejs", { task });
+  }catch(err){
       console.log(err.message);
-      res.semd("some error with DB");
-    });
+      res.send("some error with DB");
+  };
 };
 
-const deleteTask = (req, res) => {
+const deleteTask = async(req, res) => {
+  try{
   let { id } = req.params;
-  todoModel.destroy({ where: { id: `${id}` } }).catch((err) => {
-    console.log(err.message);
-  });
+  await todoModel.destroy({ where: { id: `${id}` } })
   res.redirect("/user/add");
+  }catch(err){
+    console.log(err.message);
+    res.send("some error with DB");
+  }
 };
 
 const Logout = (req, res) => {
@@ -167,8 +163,8 @@ const viewList = async (req, res) => {
     const decoded = jwtDecode(token);
     let id = decoded.id;
     const result = await todoModel.findAll({ where: { user_id: id } });
-    console.log(result)
-    res.render("list.ejs", {result});
+    console.log(result);
+    res.render("list.ejs", { result });
   } catch (err) {
     console.log(err.message);
   }
