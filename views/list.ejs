@@ -7,9 +7,9 @@
 </head>
 <body>
     <h1>TODO LIST:</h1>
-        <% if (todos && todos.length > 0) { %>
+        <% if (result && result.length > 0) { %>
             <ul>
-                <% todos.forEach(todo => { %>
+                <% result.forEach(todo => { %>
                     <li><%= todo.todo_task %></li>
                     <form action="/user/<%=todo.id%>/edit" method="get" >
                         <button>Edit todo</button>
